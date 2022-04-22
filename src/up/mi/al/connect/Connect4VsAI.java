@@ -1,5 +1,4 @@
 package up.mi.al.connect;
-
 import up.mi.al.connect.AI.AI;
 
 public class Connect4VsAI extends ConnectXVsAI {

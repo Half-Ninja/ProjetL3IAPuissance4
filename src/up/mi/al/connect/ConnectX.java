@@ -1,5 +1,7 @@
 package up.mi.al.connect;
 
+import java.util.Scanner;
+
 /**
  * Create a connectX Board of a given height and width and a given X
  * 
@@ -22,7 +24,7 @@ public class ConnectX implements ConnectGame {
 
 		board = new int[width][height];
 		for (int i = 0; i < width; i++)
-			for (int j = 0; j < width; j++)
+			for (int j = 0; j < height; j++)
 				board[i][j] = 0;
 	}
 
@@ -40,7 +42,7 @@ public class ConnectX implements ConnectGame {
 					res = 0;
 					break;
 				}
-				if ((t < 0 && res >= 0) || (t < 0 && res >= 0)) {
+				if ((t < 0 && res >= 0) || (t > 0 && res <= 0)) {
 					res = t;
 				} else {
 					res += t;
@@ -53,8 +55,8 @@ public class ConnectX implements ConnectGame {
 			res = 0;
 			for (int j = 0; j < this.width; j++) {
 				if (board[j][i] == 0)
-					break;
-				if ((board[j][i] < 0 && res > 0) || (board[j][i] < 0 && res > 0)) {
+					res = 0;
+				else if ((board[j][i] < 0 && res > 0) || (board[j][i] > 0 && res < 0)) {
 					res = board[j][i];
 				} else {
 					res += board[j][i];
@@ -82,7 +84,7 @@ public class ConnectX implements ConnectGame {
 		for (int i = linkSize ; i <= this.width + (this.height - linkSize) -1; i++) {
 			res = 0;
 			int i2 = this.width - i;
-			for (int j = Math.max(0, i2 - (this.width - 1)); j <= Math.min(this.height-1, i-1); j++) {
+			for (int j = Math.max(0, -i2); j <= Math.min(this.height-1, i-1); j++) {
 				if (board[i2 + j][j] == 0)
 					res = 0;
 				if ((board[i2 + j][j] < 0 && res >= 0) || (board[i2 + j][j] > 0 && res <= 0)) {
@@ -107,8 +109,7 @@ public class ConnectX implements ConnectGame {
 	}
 
 	public int getTokenAt(int column, int row) {
-		// TODO Auto-generated method stub
-		return 0;
+		return board[column][row];
 	}
 
 	public int[][] getBoard() {
@@ -147,38 +148,19 @@ public class ConnectX implements ConnectGame {
 
 		return res.toString();
 	}
-
-	public static void main(String[] args) {
-		ConnectGame c = new ConnectX(5, 5, 3);
-		c.playInColumn(4-0);
-		System.out.println(c);
-		c.playInColumn(4-4);
-		System.out.println(c);
-		c.playInColumn(4-2);
-		System.out.println(c);
-		c.playInColumn(4-1);
-		System.out.println(c);
-		c.playInColumn(4-0);
-		System.out.println(c);
-		c.playInColumn(4-1);
-		System.out.println(c);
-		c.playInColumn(4-4);
-		System.out.println(c);
-		c.playInColumn(4-0);
-		System.out.println(c);
-		c.playInColumn(4-0);
-		System.out.println(c);
-		c.playInColumn(4-4);
-		System.out.println(c);
-		c.playInColumn(4-1);
-		System.out.println(c);
-		c.playInColumn(4-4);
-		System.out.println(c);
-		c.playInColumn(4-2);
-		System.out.println(c);
-		c.playInColumn(4-3);
-		System.out.println(c);
-		System.out.println(c.isWon());
+	
+	public static void main(String args[]) {
+		ConnectX game = new ConnectX(4, 4, 3);
+		Scanner sc = new Scanner(System.in);
+		
+		while(game.isWon() == 0) {
+			System.out.println(game);
+			int play = sc.nextInt();
+			game.playInColumn(play);
+		}
+		sc.close();
+		System.out.println();
+		System.out.println(game.isWon());
+		System.out.println(game);
 	}
-
 }
