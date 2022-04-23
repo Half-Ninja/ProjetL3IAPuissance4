@@ -36,6 +36,14 @@ public abstract class BoardNode {
 	 * @return
 	 */
 	public abstract int[] computePlayValues();
+	
+	/**
+	 * 
+	 * @return the theorical max numbers of plays (height * width)
+	 */
+	protected int theoricalMaxPlays() {
+		return width*height;
+	}
 
 	/**
 	 * 
@@ -68,17 +76,16 @@ public abstract class BoardNode {
 					res = t;
 				} else {
 					res += t;
-					if (Math.abs(res) >= linkSize )
+					if (Math.abs(res) >= linkSize)
 						return res;
 				}
 			}
 		}
+		// checks rows
 		for (int i = 0; i < this.height; i++) {
 			res = 0;
 			for (int j = 0; j < this.width; j++) {
-				if (board[j][i] == 0)
-					res = 0;
-				else if ((board[j][i] < 0 && res > 0) || (board[j][i] > 0 && res < 0)) {
+				if ((board[j][i] <= 0 && res > 0) || (board[j][i] >= 0 && res < 0)) {
 					res = board[j][i];
 				} else {
 					res += board[j][i];
@@ -88,9 +95,10 @@ public abstract class BoardNode {
 			}
 		}
 
-		for (int i = linkSize - 1; i < this.width + (this.height - linkSize) -1; i++) {
+		// checks diagonals
+		for (int i = 1; i < this.width + this.height; i++) {
 			res = 0;
-			for (int j = Math.max(0, i - (this.width - 1)); j <= Math.min(this.height-1, i); j++) {
+			for (int j = Math.max(0, i - (this.width - 1)); j <= Math.min(this.height - 1, i); j++) {
 				if (board[i - j][j] == 0)
 					res = 0;
 				if ((board[i - j][j] < 0 && res >= 0) || (board[i - j][j] > 0 && res <= 0)) {
@@ -103,18 +111,21 @@ public abstract class BoardNode {
 			}
 		}
 
-		for (int i = linkSize ; i <= this.width + (this.height - linkSize) -1; i++) {
+		for (int i = this.width -1; i > -this.height ; i--) {
 			res = 0;
 			int i2 = this.width - i;
-			for (int j = Math.max(0, -i2); j <= Math.min(this.height-1, i-1); j++) {
-				if (board[i2 + j][j] == 0)
-					res = 0;
-				if ((board[i2 + j][j] < 0 && res >= 0) || (board[i2 + j][j] > 0 && res <= 0)) {
-					res = board[i2 + j][j];
-				} else {
-					res += board[i2 + j][j];
-					if (Math.abs(res) >= linkSize)
-						return res;
+			for (int j = 0; j <= this.height - 1; j++) {
+				try {
+					if (board[i2 + j][j] == 0)
+						res = 0;
+					if ((board[i2 + j][j] < 0 && res >= 0) || (board[i2 + j][j] > 0 && res <= 0)) {
+						res = board[i2 + j][j];
+					} else {
+						res += board[i2 + j][j];
+						if (Math.abs(res) >= linkSize)
+							return res;
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
 				}
 			}
 		}
@@ -155,12 +166,21 @@ public abstract class BoardNode {
 		return newBoard;
 	}
 
-	protected int[][] cloneBoardWithPlayAt(int colunmPlay) {
+	protected int[][] cloneBoardWithPlayAt(int columnPlay) {
 		int[][] res = cloneBoard();
 		int i = 0;
-		while (res[colunmPlay][i] != 0)
+		while (res[columnPlay][i] != 0)
 			i++;
-		res[colunmPlay][i] = player1 ? 1 : -1;
+		res[columnPlay][i] = player1 ? 1 : -1;
+		return res;
+	}
+
+	protected int[][] cloneBoardWithPlayAt(int columnPlay, boolean invertPlayer) {
+		int[][] res = cloneBoard();
+		int i = 0;
+		while (res[columnPlay][i] != 0)
+			i++;
+		res[columnPlay][i] = !player1 ? 1 : -1;
 		return res;
 	}
 

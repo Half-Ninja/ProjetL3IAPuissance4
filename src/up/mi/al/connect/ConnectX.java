@@ -31,6 +31,13 @@ public class ConnectX implements ConnectGame {
 	public boolean canPlayIn(int column) {
 		return board[column][height - 1] == 0;
 	}
+	
+	public boolean isFinished() {
+		if(isWon() != 0) return true;
+		for (int i = 0; i < width; i++)
+			if(canPlayIn(i)) return false;
+		return true;
+	}
 
 	public int isWon() {
 		int res = 0;

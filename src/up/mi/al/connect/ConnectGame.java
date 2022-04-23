@@ -17,6 +17,13 @@ public interface ConnectGame {
 	public int isWon();
 	
 	/**
+	 * check if the game has ended
+	 * 
+	 * @return - true if the game is finished
+	 */
+	public boolean isFinished();
+	
+	/**
 	 * 
 	 * @param column - the column to play in
 	 */

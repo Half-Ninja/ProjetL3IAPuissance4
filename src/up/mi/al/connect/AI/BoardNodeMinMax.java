@@ -1,13 +1,13 @@
 package up.mi.al.connect.AI;
 
 public class BoardNodeMinMax extends BoardNode {
-	private boolean isMin;
+	protected boolean isMin;
 
 	public BoardNodeMinMax(int[][] board, int linkSize, boolean player1) {
 		super(board, linkSize, player1);
 	}
 
-	private BoardNodeMinMax(int[][] board, int linkSize, boolean player1, boolean isMin) {
+	protected BoardNodeMinMax(int[][] board, int linkSize, boolean player1, boolean isMin) {
 		super(board, linkSize, player1);
 		this.isMin = isMin;
 	}
@@ -19,7 +19,7 @@ public class BoardNodeMinMax extends BoardNode {
 	 */
 	public int evaluateValue() {
 		if (isWon() != 0)
-			return isWon() > 0 ? 1 : -1;
+			return isWon() > 0 ? theoricalMaxPlays() : -theoricalMaxPlays();
 		int res = 0;
 		boolean emptyVarCheck = true;
 		for (int x = 0; x < getWidth(); x++)
@@ -30,7 +30,7 @@ public class BoardNodeMinMax extends BoardNode {
 					emptyVarCheck = false;
 				}
 			}
-		return res;
+		return res > 0 ? res - 1 : (res < 0 ? 0 : res + 1);
 	}
 
 	public int evaluateValue(int columnPlay) {
@@ -45,7 +45,12 @@ public class BoardNodeMinMax extends BoardNode {
 	public int evaluateImmediateValue(int columnPlay) {
 		setChildren(columnPlay, new BoardNodeMinMax(cloneBoardWithPlayAt(columnPlay), linkSize, !isPlayer1(), !isMin));
 		if (getChildren(columnPlay).isWon() != 0) {
-			return getChildren(columnPlay).isWon() > 0 ? isPlayer1() ? 1 : -1 : !isPlayer1() ? 1 : -1;
+			return -1;
+		}
+		setChildren(columnPlay,
+				new BoardNodeMinMax(cloneBoardWithPlayAt(columnPlay, true), linkSize, !isPlayer1(), !isMin));
+		if (getChildren(columnPlay).isWon() != 0) {
+			return 1;
 		}
 		return Integer.MIN_VALUE;
 	}

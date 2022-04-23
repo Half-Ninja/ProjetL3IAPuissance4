@@ -3,7 +3,9 @@ package up.mi.al.connect;
 import java.util.Scanner;
 
 import up.mi.al.connect.AI.AI;
+import up.mi.al.connect.AI.AIAlphaBeta;
 import up.mi.al.connect.AI.AIMinMax;
+import up.mi.al.connect.AI.BoardNodeAlphaBeta;
 
 public class ConnectXVsAI extends ConnectX {
 	private AI ai;
@@ -30,26 +32,26 @@ public class ConnectXVsAI extends ConnectX {
 		if (isWon() != 0) {
 			System.out.print("isWon() >>> ");
 			System.out.println(isWon());
-		}
-		else 
+		} else
 			super.playInColumn(ai.computePlay(getBoard(), linkSize));
-		
+
 	}
-	
+
 	public static void main(String args[]) {
-		ConnectXVsAI game = new ConnectXVsAI(4, 4, 3, new AIMinMax(), true);
+		ConnectXVsAI game = new ConnectXVsAI(6, 7, 4, new AIAlphaBetaDepth(10));
 		Scanner sc = new Scanner(System.in);
-		
-		while(game.isWon() == 0) {
+
+		while (!game.isFinished()) {
 			System.out.println(game);
 			int play = sc.nextInt();
 			game.playInColumn(play);
 		}
 		sc.close();
-//		int[][] board = {{-1, 1, 1, 1},{0, 0, 0, 0},{0, 0, 0, 0},{0, 0, 0, 0}};
-//		BoardNodeMinMax ai = new BoardNodeMinMax(board, 3, false);
-//		System.out.println();
-//		System.out.println(ai.isWon());
+//		int[][] board = {{1, -1, 0, 0},{0, 0, 0, 0},{1, 0, 0, 0},{1, 0, 0, 0}};
+//		BoardNodeAlphaBeta ai = new BoardNodeAlphaBeta(board, 3, false);
+		System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
+		System.out.println(game);
+//		System.out.println(ai.evaluateImmediateValue(2));
 	}
 
 }
