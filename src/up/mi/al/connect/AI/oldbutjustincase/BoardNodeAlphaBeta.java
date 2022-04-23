@@ -1,4 +1,4 @@
-package up.mi.al.connect.AI;
+package up.mi.al.connect.AI.oldbutjustincase;
 
 public class BoardNodeAlphaBeta extends BoardNodeMinMax {
 	protected int pruneValue;
@@ -38,7 +38,6 @@ public class BoardNodeAlphaBeta extends BoardNodeMinMax {
 		}
 		return res > 0 ? res - 1 : (res < 0 ? res + 1 : 0);
 	}
-
 	public int evaluateValue(int columnPlay, int pruneValue) {
 		int v = isWon();
 		if (v != 0)
