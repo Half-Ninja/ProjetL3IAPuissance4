@@ -40,10 +40,10 @@ public class AIMinMax implements AI {
 				if(!emptyCheck && values[i] == values[options.get(0)])
 					options.add(i);
 					//check if either option is empty or if the value of the placement i is batter than those currently stored
-				else if (emptyCheck || (!(values[i] > 0) && values[options.get(0)] > 0) ||
-						(values[i] < 0 && values[options.get(0)] == 0) || 
-						(values[i] < 0 && values[options.get(0)] < 0 && values[i] < values[options.get(0)]) || 
-						(values[options.get(0)] > 0 && values[i] < values[options.get(0)])) {
+				else if (emptyCheck || (!(values[options.get(0)] > 0) && values[i] > 0) ||
+						(values[options.get(0)] < 0 && values[i] == 0) || 
+						(values[options.get(0)] < 0 && values[i] < values[options.get(0)]) || 
+						(values[i] > 0 && values[i] < values[options.get(0)])) {
 					emptyCheck = false;
 					options.clear();
 					options.add(i);

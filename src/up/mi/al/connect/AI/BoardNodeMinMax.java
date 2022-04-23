@@ -18,15 +18,18 @@ public class BoardNodeMinMax extends BoardNode {
 	public int evaluateValue() {
 		int val = isWon(); // is won, returns winner
 		if (val != 0) {
-			return val < 0 ? (isPlayer1() ? 1 : -1) : (isPlayer1() ? -1 : 1);
+//			System.out.println(this);
+//			System.out.println("won by player" + (val > 0 ? "1" : "2"));
+//			System.out.println(val);
+//			System.out.println(val < 0 ? -1 : 1);
+//			System.out.println("won by player" + (val > 0 ? "1" : "2"));
+			return val < 0 ? -1 : 1;
 		}
 
 		int res = 0;
 		boolean emptyVarCheck = true;
 		for (int x = 0; x < getWidth(); x++)
 			if (canPlayIn(x)) {
-				if (x == 3 && !isPlayer1())
-					x = 3;
 				val = evaluateValue(x);
 //				boolean a = val < 0;
 //				boolean b = val == 0;
@@ -42,13 +45,16 @@ public class BoardNodeMinMax extends BoardNode {
 				// TODO : simplify more
 				if (emptyVarCheck
 						|| (!isMin && ((val > 0 && !(res > 0)) || (val == 0 && res < 0)
-								|| (res < 0 && val < 0 && res < val) || (res > 0 && res < val)))
+								|| (val < 0 && res < val) || (res > 0 && res < val)))
 						|| (isMin && ((val < 0 && !(res < 0)) || (val == 0 && res > 0)
-								|| (res > 0 && val > 0 && val < res) || (res < 0 && val < res)))) {
+								|| (val > 0 && val < res) || (res < 0 && val < res)))) {
 					emptyVarCheck = true;
 					res = val;
 				}
 			}
+//		System.out.println(this);
+//		System.out.println(res > 0 ? res + 1 : (res < 0 ? res - 1 : 0));
+//		System.out.println(isPlayer1()?"player1":"player2");
 		return res > 0 ? res + 1 : (res < 0 ? res - 1 : 0);
 	}
 
@@ -96,8 +102,12 @@ public class BoardNodeMinMax extends BoardNode {
 		int[] res = new int[getWidth()];
 
 		for (int x = 0; x < getWidth(); x++)
-			if (canPlayIn(x)) {
+			if (canPlayIn(x) /*&& x==0*/) {
 				res[x] = evaluateValue(x);
+//				for (int i=0; i < 3; i++) {
+//					System.out.println(getChildren(x).getChildren(i));
+//					System.out.println(getChildren(x).getChildren(i).evaluateValue());
+//				}
 			} else
 				res[x] = -1;
 		return res;

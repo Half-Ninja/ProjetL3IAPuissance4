@@ -37,8 +37,8 @@ public class ConnectXVsAI extends ConnectX {
 	}
 
 	public static void main(String args[]) {
-		int height = 4, width = 4, linksize = 3;
-		boolean AIAsPlayer1 = false;
+		int height = 3, width = 3, linksize = 3;
+		boolean AIAsPlayer1 = true;
 		ConnectXVsAI game = new ConnectXVsAI(height, width, linksize, new AIMinMax(AIAsPlayer1), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
 
@@ -48,7 +48,13 @@ public class ConnectXVsAI extends ConnectX {
 			game.playInColumn(play);
 		}
 		sc.close();
-//		int[][] board = {{0, 0, 0, 0},{1, 0, 0, 0},{-1, 1, 0, 0},{-1, 1, 1, 0}};
+		if(game.isWon() != 0)
+			System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
+		else
+			System.out.println("draw");
+		System.out.println(game);
+		
+//		int[][] board = {{1, 1, -1},{-1, 01, 01},{1, -01, -01}};
 //		BoardNodeMinMax node = new BoardNodeMinMax(board, 3, false);
 //		int[] values = node.computePlayValues();
 //		
@@ -58,8 +64,6 @@ public class ConnectXVsAI extends ConnectX {
 //		System.out.println();
 //		System.out.println(node);
 //		System.out.println(node.isWon());
-		System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
-		System.out.println(game);
 	}
 
 }
