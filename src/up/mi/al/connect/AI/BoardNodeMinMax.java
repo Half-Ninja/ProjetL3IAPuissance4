@@ -2,15 +2,18 @@ package up.mi.al.connect.AI;
 
 public class BoardNodeMinMax extends BoardNode {
 	protected final boolean isMin;
+	public String id;
 
 	public BoardNodeMinMax(int[][] board, int linkSize, boolean player1) {
 		super(board, linkSize, player1);
 		isMin = false;
+		id = "";
 	}
 
-	protected BoardNodeMinMax(int[][] board, int linkSize, boolean player1, boolean isMin) {
+	/*protected*/ public BoardNodeMinMax(int[][] board, int linkSize, boolean player1, boolean isMin, String id) {
 		super(board, linkSize, player1);
 		this.isMin = isMin;
+		this.id = id;
 
 	}
 
@@ -23,7 +26,12 @@ public class BoardNodeMinMax extends BoardNode {
 //			System.out.println(val);
 //			System.out.println(val < 0 ? -1 : 1);
 //			System.out.println("won by player" + (val > 0 ? "1" : "2"));
-			return val < 0 ? -1 : 1;
+			boolean p1win = val > 0;
+			
+			boolean result = (p1win && !isPlayer1() && isMin) || (!p1win && isPlayer1() && isMin) ||
+							 (p1win && isPlayer1() && !isMin) || (!p1win && !isPlayer1() && !isMin);
+			
+			return result?1:-1;
 		}
 
 		int res = 0;
@@ -43,27 +51,28 @@ public class BoardNodeMinMax extends BoardNode {
 //				boolean result = (!i && ((c && !f) || (b&&d) || (d && a && g) || (f && g) )) ||
 //							( i && ((a && !d) || (b&&f) || (f && c && h) || (d && h) ));
 				// TODO : simplify more
-				if (emptyVarCheck
-						|| (!isMin && ((val > 0 && !(res > 0)) || (val == 0 && res < 0)
-								|| (val < 0 && res < val) || (res > 0 && res < val)))
+				if(id.equals("2221100"))
+					res = res;
+				boolean result = emptyVarCheck
+						|| (!isMin && ((res > 0 && !(val > 0)) || (val == 0 && res < 0)
+								|| (res < 0 && res > val) || (val > 0 && res > val)))
 						|| (isMin && ((val < 0 && !(res < 0)) || (val == 0 && res > 0)
-								|| (val > 0 && val < res) || (res < 0 && val < res)))) {
-					emptyVarCheck = true;
+								|| (res > 0 && val > res) || (val < 0 && val > res)));
+				if (result) {
+					emptyVarCheck = false;
 					res = val;
 				}
 			}
 //		System.out.println(this);
 //		System.out.println(res > 0 ? res + 1 : (res < 0 ? res - 1 : 0));
 //		System.out.println(isPlayer1()?"player1":"player2");
-		return res > 0 ? res + 1 : (res < 0 ? res - 1 : 0);
+//		System.out.println();
+		return !isMin?res : res > 0 ? res + 1 : (res < 0 ? res - 1 : 0);
 	}
 
 	public String toString() {
 		StringBuilder res = new StringBuilder();
-		res.append(" ");
-		for (int j = 0; j < getWidth(); j++) {
-			res.append(" ");
-		}
+		res.append("["+id+"]");
 		res.append(" \n");
 		int[][] board = cloneBoard();
 		for (int i = getHeight() - 1; i >= 0; i--) {
@@ -94,7 +103,7 @@ public class BoardNodeMinMax extends BoardNode {
 
 	@Override
 	protected BoardNode createChildNode(int playAt) {
-		return new BoardNodeMinMax(cloneBoardWithPlayAt(playAt), linkSize, !isPlayer1(), !isMin);
+		return new BoardNodeMinMax(cloneBoardWithPlayAt(playAt), linkSize, !isPlayer1(), !isMin, id+Integer.toString(playAt));
 	}
 
 	@Override
@@ -103,6 +112,10 @@ public class BoardNodeMinMax extends BoardNode {
 
 		for (int x = 0; x < getWidth(); x++)
 			if (canPlayIn(x) /*&& x==0*/) {
+//				System.out.println("**************************************");
+//				System.out.print("column ");
+//				System.out.println(x);
+//				System.out.println("**************************************");
 				res[x] = evaluateValue(x);
 //				for (int i=0; i < 3; i++) {
 //					System.out.println(getChildren(x).getChildren(i));
