@@ -1,12 +1,12 @@
 package up.mi.al.connect;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Scanner;
 
 import up.mi.al.connect.AI.AI;
 import up.mi.al.connect.AI.AIMinMax;
-import up.mi.al.connect.AI.BoardNode;
-import up.mi.al.connect.AI.BoardNodeMinMax;
+//import up.mi.al.connect.AI.BoardNode;
+//import up.mi.al.connect.AI.BoardNodeMinMax;
 
 public class ConnectXVsAI extends ConnectX {
 	private AI ai;
@@ -68,37 +68,26 @@ public class ConnectXVsAI extends ConnectX {
 //		System.out.println(node);
 //		System.out.println(node.isWon());
 	}
-	private static ArrayList<Integer> calcPlay(int[] values, BoardNode node) {
-		ArrayList<Integer> options = new ArrayList<>();
-		boolean emptyCheck = true;
-		for (int i = 0; i < values.length; i++) {
-			if (node.canPlayIn(i)) {
-//				// DO YOU LIKE LOGIC GATES??? I DO!!!
-//
-//				boolean op = values[i] > 0; 
-//				boolean on = values[i] < 0; 
-//				boolean vn = values[options.get(0)] < 0; 
-//				boolean vp = values[options.get(0)] > 0; 
-//				boolean v0 = values[options.get(0)] == 0; 
-//				boolean vo = values[i] < values[options.get(0)]; 
-//
-//				boolean result = emptyCheck || (!op && vp) || (on && v0) || (on && vn && vo) || (vp && vo);
-
-				//
-				if(!emptyCheck && values[i] == values[options.get(0)])
-					options.add(i);
-					//check if either option is empty or if the value of the placement i is batter than those currently stored
-				else if (emptyCheck || (!(values[options.get(0)] > 0) && values[i] > 0) ||
-						(values[options.get(0)] < 0 && values[i] == 0) || 
-						(values[options.get(0)] < 0 && values[i] < values[options.get(0)]) || 
-						(values[i] > 0 && values[i] < values[options.get(0)])) {
-					emptyCheck = false;
-					options.clear();
-					options.add(i);
-				} 
-			}
-		}
-		return options;
-	}
+	
+//	private static ArrayList<Integer> calcPlay(int[] values, BoardNode node) {
+//		ArrayList<Integer> options = new ArrayList<>();
+//		boolean emptyCheck = true;
+//		for (int i = 0; i < values.length; i++) {
+//			if (node.canPlayIn(i)) {
+//				if(!emptyCheck && values[i] == values[options.get(0)])
+//					options.add(i);
+//					//check if either option is empty or if the value of the placement i is batter than those currently stored
+//				else if (emptyCheck || (!(values[options.get(0)] > 0) && values[i] > 0) ||
+//						(values[options.get(0)] < 0 && values[i] == 0) || 
+//						(values[options.get(0)] < 0 && values[i] < values[options.get(0)]) || 
+//						(values[i] > 0 && values[i] < values[options.get(0)])) {
+//					emptyCheck = false;
+//					options.clear();
+//					options.add(i);
+//				} 
+//			}
+//		}
+//		return options;
+//	}
 
 }
