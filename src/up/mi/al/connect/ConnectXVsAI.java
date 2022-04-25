@@ -4,9 +4,10 @@ package up.mi.al.connect;
 import java.util.Scanner;
 
 import up.mi.al.connect.AI.AI;
-import up.mi.al.connect.AI.AIMinMax;
+import up.mi.al.connect.AI.AIAlphaBeta;
 //import up.mi.al.connect.AI.BoardNode;
 //import up.mi.al.connect.AI.BoardNodeMinMax;
+import up.mi.al.connect.AI.AIMinMax;
 
 public class ConnectXVsAI extends ConnectX {
 	private AI ai;
@@ -41,7 +42,7 @@ public class ConnectXVsAI extends ConnectX {
 	public static void main(String args[]) {
 		int height = 3, width = 3, linksize = 3;
 		boolean AIAsPlayer1 = true;
-		ConnectXVsAI game = new ConnectXVsAI(height, width, linksize, new AIMinMax(AIAsPlayer1), AIAsPlayer1);
+		ConnectXVsAI game = new ConnectXVsAI(height, width, linksize, new AIAlphaBeta(AIAsPlayer1), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
 
 		while (!game.isFinished()) {
