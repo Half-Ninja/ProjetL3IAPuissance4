@@ -31,6 +31,23 @@ public abstract class BoardNode {
 	public abstract int evaluateValue();
 
 	/**
+	 * evaluates the value of the child node
+	 * 
+	 * @param playAt - the column of the play
+	 * @return the calculated value
+	 */
+	public int evaluateValue(int playAt) {
+		setChildren(playAt, createChildNode(playAt));
+		return getChildren(playAt).evaluateValue();
+	}
+
+	/**
+	 * Creates an object corresponding to the new child
+	 * @return
+	 */
+	protected abstract BoardNode createChildNode(int playAt);
+
+	/**
 	 * calculate the values of the child nodes
 	 * 
 	 * @return
@@ -96,9 +113,9 @@ public abstract class BoardNode {
 		}
 
 		// checks diagonals
-		for (int i = 1; i < this.width + this.height; i++) {
+		for (int i = 1; i < this.width + this.height - 1; i++) {
 			res = 0;
-			for (int j = Math.max(0, i - (this.width - 1)); j <= Math.min(this.height - 1, i); j++) {
+			for (int j = Math.max(0, i - (this.width-1)); j <= Math.min(this.height - 1, i); j++) {
 				if (board[i - j][j] == 0)
 					res = 0;
 				if ((board[i - j][j] < 0 && res >= 0) || (board[i - j][j] > 0 && res <= 0)) {
@@ -113,20 +130,16 @@ public abstract class BoardNode {
 
 		for (int i = this.width -1; i > -this.height ; i--) {
 			res = 0;
-			int i2 = this.width - i;
-			for (int j = 0; j <= this.height - 1; j++) {
-				try {
-					if (board[i2 + j][j] == 0)
+			for (int j = i>0?0:-i; j < Math.min(this.height, this.height - i); j++) {
+					if (board[i + j][j] == 0)
 						res = 0;
-					if ((board[i2 + j][j] < 0 && res >= 0) || (board[i2 + j][j] > 0 && res <= 0)) {
-						res = board[i2 + j][j];
+					if ((board[i + j][j] < 0 && res >= 0) || (board[i + j][j] > 0 && res <= 0)) {
+						res = board[i + j][j];
 					} else {
-						res += board[i2 + j][j];
+						res += board[i + j][j];
 						if (Math.abs(res) >= linkSize)
 							return res;
 					}
-				} catch (ArrayIndexOutOfBoundsException e) {
-				}
 			}
 		}
 

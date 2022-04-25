@@ -4,53 +4,54 @@ import java.util.ArrayList;
 
 public class AIMinMax implements AI {
 
-	public AIMinMax() {
+	private boolean player1;
+
+	public AIMinMax(boolean player1) {
+		this.player1 = player1;
 	}
 
 	@Override
 	public int computePlay(int[][] board, int linkSize) {
-		BoardNodeMinMax MinMaxTree = new BoardNodeMinMax(board, linkSize, false);
+		BoardNodeMinMax node = new BoardNodeMinMax(board, linkSize, player1);
+
+		int[] values = node.computePlayValues();
 		
-		int[] vals = MinMaxTree.computeImmediateValues();
-		ArrayList<Integer> winningPlays = new ArrayList<Integer>();
-		winningPlays.add(0);
-		for (int i = 1; i < board.length; i++) 
-			if(MinMaxTree.canPlayIn(i)) {
-				if(vals[winningPlays.get(0)] == vals[i]) {
-					winningPlays.add(i);
-				}
-			
-				else if(vals[winningPlays.get(0)] < vals[i]) {
-					winningPlays.clear();
-					winningPlays.add(i);
-				}
-			}	
-		
-		if(vals[winningPlays.get(0)] > -10) {
-			return winningPlays.get((int)(Math.random() * winningPlays.size()));
+		for (int v : values) {
+			System.out.print(Integer.toString(v) + " ");
+		}
+		System.out.println();
+
+		ArrayList<Integer> options = new ArrayList<>();
+		boolean emptyCheck = true;
+		for (int i = 0; i < values.length; i++) {
+			if (node.canPlayIn(i)) {
+//				// DO YOU LIKE LOGIC GATES??? I DO!!!
+//
+//				boolean op = values[i] > 0; 
+//				boolean on = values[i] < 0; 
+//				boolean vn = values[options.get(0)] < 0; 
+//				boolean vp = values[options.get(0)] > 0; 
+//				boolean v0 = values[options.get(0)] == 0; 
+//				boolean vo = values[i] < values[options.get(0)]; 
+//
+//				boolean result = emptyCheck || (!op && vp) || (on && v0) || (on && vn && vo) || (vp && vo);
+
+				//
+				if(!emptyCheck && values[i] == values[options.get(0)])
+					options.add(i);
+					//check if either option is empty or if the value of the placement i is batter than those currently stored
+				else if (emptyCheck || (!(values[options.get(0)] > 0) && values[i] > 0) ||
+						(values[options.get(0)] < 0 && values[i] == 0) || 
+						(values[options.get(0)] < 0 && values[i] < values[options.get(0)]) || 
+						(values[i] > 0 && values[i] < values[options.get(0)])) {
+					emptyCheck = false;
+					options.clear();
+					options.add(i);
+				} 
+			}
 		}
 		
-		vals = MinMaxTree.computePlayValues();
-		
-		ArrayList<Integer> bestPlays = new ArrayList<Integer>();
-		boolean emptyVarCheck = true;
-		for (int x = 0; x < board.length; x++) 
-			if(MinMaxTree.canPlayIn(x)) {
-				if(emptyVarCheck || vals[bestPlays.get(0)] == vals[x]) {
-					bestPlays.add(x);
-					emptyVarCheck = false;
-				}
-			
-				else if(vals[bestPlays.get(0)] < vals[x]) {
-					bestPlays.clear();
-					bestPlays.add(x);
-				}
-			}
-		System.out.println(bestPlays);
-		int r = (int)(Math.random() * bestPlays.size());
-		System.out.print("r = ");
-		System.out.println(r);
-		return bestPlays.get(r);
+		return options.get((int)(Math.random() * options.size()));
 	}
 
 }

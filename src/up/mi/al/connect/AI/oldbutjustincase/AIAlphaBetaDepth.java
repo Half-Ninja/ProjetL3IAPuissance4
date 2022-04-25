@@ -1,15 +1,21 @@
-package up.mi.al.connect.AI;
+package up.mi.al.connect.AI.oldbutjustincase;
 
 import java.util.ArrayList;
 
-public class AIAlphaBeta implements AI {
+import up.mi.al.connect.AI.AI;
+import up.mi.al.connect.AI.AIAlphaBeta;
 
-	public AIAlphaBeta() {
+public class AIAlphaBetaDepth extends AIAlphaBeta implements AI {
+	
+	private int depth;
+
+	public AIAlphaBetaDepth(int depth) {
+		this.depth = depth;
 	}
-
+	
 	@Override
 	public int computePlay(int[][] board, int linkSize) {
-		BoardNodeAlphaBeta abTree = new BoardNodeAlphaBeta(board, linkSize, false);
+		BoardNodeAlphaBetaDepth abTree = new BoardNodeAlphaBetaDepth(board, linkSize, false);
 		
 		int[] vals = abTree.computeImmediateValues();
 		ArrayList<Integer> winningPlays = new ArrayList<Integer>();
@@ -30,7 +36,7 @@ public class AIAlphaBeta implements AI {
 			return winningPlays.get((int)(Math.random() * winningPlays.size()));
 		}
 		
-		vals = abTree.computePlayValues();
+		vals = abTree.computePlayValues(depth);
 		
 		String val = "";
 		for(int x = 0; x < vals.length; x++)

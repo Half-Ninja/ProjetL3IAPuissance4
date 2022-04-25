@@ -1,4 +1,4 @@
-package up.mi.al.connect;
+package up.mi.al.connect.AI.oldbutjustincase;
 
 import up.mi.al.connect.AI.BoardNodeAlphaBeta;
 

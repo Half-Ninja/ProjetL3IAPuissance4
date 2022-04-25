@@ -1,27 +1,21 @@
-package up.mi.al.connect;
+package up.mi.al.connect.AI.oldbutjustincase;
 
 import java.util.ArrayList;
 
-import up.mi.al.connect.AI.AI;
-import up.mi.al.connect.AI.AIAlphaBeta;
+public class AIMinMax implements AI {
 
-public class AIAlphaBetaDepth extends AIAlphaBeta implements AI {
-	
-	private int depth;
-
-	public AIAlphaBetaDepth(int depth) {
-		this.depth = depth;
+	public AIMinMax() {
 	}
-	
+
 	@Override
 	public int computePlay(int[][] board, int linkSize) {
-		BoardNodeAlphaBetaDepth abTree = new BoardNodeAlphaBetaDepth(board, linkSize, false);
+		BoardNodeMinMax MinMaxTree = new BoardNodeMinMax(board, linkSize, false);
 		
-		int[] vals = abTree.computeImmediateValues();
+		int[] vals = MinMaxTree.computeImmediateValues();
 		ArrayList<Integer> winningPlays = new ArrayList<Integer>();
 		winningPlays.add(0);
 		for (int i = 1; i < board.length; i++) 
-			if(abTree.canPlayIn(i)) {
+			if(MinMaxTree.canPlayIn(i)) {
 				if(vals[winningPlays.get(0)] == vals[i]) {
 					winningPlays.add(i);
 				}
@@ -36,17 +30,12 @@ public class AIAlphaBetaDepth extends AIAlphaBeta implements AI {
 			return winningPlays.get((int)(Math.random() * winningPlays.size()));
 		}
 		
-		vals = abTree.computePlayValues(depth);
-		
-		String val = "";
-		for(int x = 0; x < vals.length; x++)
-			val += Integer.toString(vals[x]) + " ";
-		System.out.println(val);
+		vals = MinMaxTree.computePlayValues();
 		
 		ArrayList<Integer> bestPlays = new ArrayList<Integer>();
 		boolean emptyVarCheck = true;
 		for (int x = 0; x < board.length; x++) 
-			if(abTree.canPlayIn(x)) {
+			if(MinMaxTree.canPlayIn(x)) {
 				if(emptyVarCheck || vals[bestPlays.get(0)] == vals[x]) {
 					bestPlays.add(x);
 					emptyVarCheck = false;
