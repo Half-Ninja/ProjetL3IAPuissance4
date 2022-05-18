@@ -95,6 +95,7 @@ public class App {
 		else
 			System.out.println("draw");
 		System.out.println(game);
+	    
     }
 
 
