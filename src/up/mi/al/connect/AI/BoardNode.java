@@ -36,7 +36,7 @@ public abstract class BoardNode {
 	 * @param playAt - the column of the play
 	 * @return the calculated value
 	 */
-	public int evaluateValue(int playAt) {
+	protected int evaluateValue(int playAt) {
 		setChildren(playAt, createChildNode(playAt));
 		return getChildren(playAt).evaluateValue();
 	}
