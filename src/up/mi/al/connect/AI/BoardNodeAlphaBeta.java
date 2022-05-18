@@ -17,13 +17,13 @@ public class BoardNodeAlphaBeta extends BoardNodeMinMax {
 
 	protected BoardNodeAlphaBeta(int[][] board, int linkSize, boolean player1, boolean isMin) {
 		super(board, linkSize, player1, isMin);
-		this.pruneValue = 1;
+		this.pruneValue = isMin?-1:1;
 	}
 
 	@Override
 	public int evaluateValue() {
-		int val = isWon(); // is won, returns winner
-		if (val != 0) {
+		int val = isWon(); // if is won, returns winner
+		if (val != 0) { 
 			boolean p1win = val > 0;
 
 			boolean result = (p1win && !isPlayer1() && isMin) || (!p1win && isPlayer1() && isMin)
@@ -36,8 +36,15 @@ public class BoardNodeAlphaBeta extends BoardNodeMinMax {
 		boolean emptyVarCheck = true;
 		for (int x = 0; x < getWidth(); x++)
 			if (canPlayIn(x)) {
-				val = evaluateValue(x, res);
-				if(comparePlayValues(val, pruneValue)>0)
+				if (emptyVarCheck)
+					val = evaluateValue(x, res);
+				else
+					val = evaluateValue(x);
+				
+				if((!isMin && ((pruneValue > 0 && !(val > 0)) || (val == 0 && pruneValue < 0) || (res < 0 && pruneValue > val)
+						|| (val > 0 && pruneValue > val)))
+						|| (isMin && ((val < 0 && !(pruneValue < 0)) || (val == 0 && pruneValue > 0) || (pruneValue > 0 && val > pruneValue)
+								|| (val < 0 && val > pruneValue))))
 					return val;
 				if (emptyVarCheck || comparePlayValues(val, res) > 0) {
 					emptyVarCheck = false;
