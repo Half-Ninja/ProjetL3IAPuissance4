@@ -16,10 +16,6 @@ public class AIMinMax implements AI {
 
 		int[] values = node.computePlayValues();
 
-		for (int v : values) {
-			System.out.print(Integer.toString(v) + " ");
-		}
-		System.out.println();
 
 		ArrayList<Integer> options = new ArrayList<>();
 		boolean emptyCheck = true;

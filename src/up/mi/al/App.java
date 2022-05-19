@@ -7,69 +7,67 @@ import up.mi.al.connect.AI.AIRandom;
 import up.mi.al.connect.AI.AIAlphaBeta;
 import up.mi.al.connect.AI.AIAlphaBetaDepth;
 
-
 public class App {
-  
-  private static String menuPrincipal = "1 - facile\n" + "2 - moyen\n" + "3 - difficile";
 
-    public static void main(String args[]) {
+	private static String menuPrincipal = "1 - facile\n" + "2 - moyen\n" + "3 - difficile";
 
-      int choixNiveau = 0;
-          Scanner sc = new Scanner(System.in);
-      do{
-	      
-        System.out.println(menuPrincipal);
-	      System.out.println(menuPrincipal);
+	public static void main(String args[]) {
+
+		int choixNiveau = 0;
+		Scanner sc = new Scanner(System.in);
+		do {
+
+			System.out.println(menuPrincipal);
 			try {
 				choixNiveau = sc.nextInt();
-			}catch(InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				choixNiveau = 0;
 				sc.next();
 			}
-        //choixNiveau = sc.nextInt();
-        switch(choixNiveau){
-          case 1:
-            System.out.println("\n facile");
-            IAEasy();
-            break;
-          case 2:
-            System.out.println("\n moyen");
-            IAMedium();
-            break;
-          case 3:
-            System.out.println("\n difficile");
-            IAHard();
-            break;
-          default:
-            System.out.println("Entrée non reconnue\n");
-        }
-      }while(choixNiveau != 3);
-          sc.close();
-    }
+			// choixNiveau = sc.nextInt();
+			switch (choixNiveau) {
+			case 1:
+				System.out.println("\n facile");
+				IAEasy();
+				break;
+			case 2:
+				System.out.println("\n moyen");
+				IAMedium();
+				break;
+			case 3:
+				System.out.println("\n difficile");
+				IAHard();
+				break;
+			default:
+				System.out.println("Entrée non reconnue\n");
+			}
+		} while (choixNiveau != 3);
+		sc.close();
+	}
 
-    private static void IAEasy(){
+	private static void IAEasy() {
 
-        boolean AIAsPlayer1 = false;
-        Connect4VsAI game = new Connect4VsAI(new AIRandom(), AIAsPlayer1);
-        Scanner sc = new Scanner(System.in);
+		boolean AIAsPlayer1 = false;
+		Connect4VsAI game = new Connect4VsAI(new AIRandom(), AIAsPlayer1);
+		Scanner sc = new Scanner(System.in);
 
-        while (!game.isFinished()) {
-            System.out.println(game);
-            int play = sc.nextInt();
-            game.playInColumn(play);
-        }
-        sc.close();
-        if(game.isWon() != 0)
-            System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
-        else
-            System.out.println("d1raw");
-        System.out.println(game);
-    }
+		while (!game.isFinished()) {
+			System.out.println(game);
+			int play = sc.nextInt();
+			game.playInColumn(play);
+		}
+		sc.close();
+		if (game.isWon() != 0)
+			System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
+		else
+			System.out.println("d1raw");
+		System.out.println(game);
+	}
 
-    private static void IAMedium(){
+	private static void IAMedium() {
 
-        int depth = 1;
-        boolean AIAsPlayer1 = false;
+		int depth = 1;
+		boolean AIAsPlayer1 = false;
 		Connect4VsAI game = new Connect4VsAI(new AIAlphaBetaDepth(AIAsPlayer1, depth), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
 
@@ -79,16 +77,16 @@ public class App {
 			game.playInColumn(play);
 		}
 		sc.close();
-		if(game.isWon() != 0)
+		if (game.isWon() != 0)
 			System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
 		else
 			System.out.println("draw");
 		System.out.println(game);
-    }
+	}
 
-    private static void IAHard(){
-	int depth = 4;
-    	boolean AIAsPlayer1 = false;
+	private static void IAHard() {
+		int depth = 4;
+		boolean AIAsPlayer1 = false;
 		Connect4VsAI game = new Connect4VsAI(new AIAlphaBetaDepth(AIAsPlayer1, depth), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
 
@@ -98,13 +96,12 @@ public class App {
 			game.playInColumn(play);
 		}
 		sc.close();
-		if(game.isWon() != 0)
+		if (game.isWon() != 0)
 			System.out.println("player " + (game.isWon() > 0 ? "1" : "2") + " won");
 		else
 			System.out.println("draw");
 		System.out.println(game);
-	    
-    }
 
+	}
 
 }

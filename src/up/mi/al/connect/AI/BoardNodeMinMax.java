@@ -60,33 +60,4 @@ public class BoardNodeMinMax extends BoardNode {
 		return res;
 	}
 
-	/**
-	 * Evaluate two value relative to another (named res and val for coding
-	 * convenience)
-	 * 
-	 * @param val
-	 * @param res
-	 * @return 0 if the values are the same, 1 is val is preferable, -1 if res is
-	 *         preferable
-	 */
-	public int comparePlayValues(int val, int res) {
-		if (val == 0)
-			return 0;
-
-//		logic gates are cool, I guess anyways:
-//		boolean a = val < 0;
-//		boolean b = val == 0;
-//		boolean c = val > 0;
-//		boolean d = res < 0;
-//		boolean e = res == 0;
-//		boolean f = res > 0;
-//		boolean g = res < val;
-//		boolean h = val < res;
-//		boolean i = isMin;
-//		boolean result = (!i && ((c && !f) || (b&&d) || (d && a && g) || (f && g) )) ||
-//					( i && ((a && !d) || (b&&f) || (f && c && h) || (d && h) ));
-		// TODO : simplify more
-		return  true ? 1 : -1;
-	}
-
 }

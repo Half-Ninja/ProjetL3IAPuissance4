@@ -46,7 +46,10 @@ public class BoardNodeAlphaBeta extends BoardNodeMinMax {
 						|| (isMin && ((val < 0 && !(pruneValue < 0)) || (val == 0 && pruneValue > 0) || (pruneValue > 0 && val > pruneValue)
 								|| (val < 0 && val > pruneValue))))
 					return val;
-				if (emptyVarCheck || comparePlayValues(val, res) > 0) {
+				if (emptyVarCheck || (!isMin && ((res > 0 && !(val > 0)) || (val == 0 && res < 0) || (res < 0 && res > val)
+						|| (val > 0 && pruneValue > val)))
+						|| (isMin && ((val < 0 && !(res < 0)) || (val == 0 && res > 0) || (res > 0 && val > res)
+								|| (val < 0 && val > res)))) {
 					emptyVarCheck = false;
 					res = val;
 				}

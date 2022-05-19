@@ -41,7 +41,7 @@ public class ConnectXVsAI extends ConnectX {
 	}
 
 	public static void main(String args[]) {
-		int height = 3, width = 3, linksize = 3, depth = 5;
+		int height = 6, width = 7, linksize = 4, depth = 1;
 		boolean AIAsPlayer1 = false;
 		ConnectXVsAI game = new ConnectXVsAI(height, width, linksize, new AIAlphaBetaDepth(AIAsPlayer1, depth), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);

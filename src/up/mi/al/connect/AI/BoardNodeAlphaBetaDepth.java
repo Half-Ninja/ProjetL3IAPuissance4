@@ -42,7 +42,10 @@ public class BoardNodeAlphaBetaDepth extends BoardNodeAlphaBeta {
 	@Override
 	protected int evaluateValue(int playAt, int pruneAt) {
 		setChildren(playAt, createChildNode(playAt, pruneAt));
-		return getChildren(playAt).evaluateValue();
+		int res = getChildren(playAt).evaluateValue();
+		setChildren(playAt, null); // to avoid garbage overload
+		return res;
+		//return getChildren(playAt).evaluateValue();
 	}
 
 	/**
