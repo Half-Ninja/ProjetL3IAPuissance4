@@ -1,7 +1,7 @@
 package up.mi.al;
 
 import java.util.Scanner;
-
+import java.util.InputMismatchException;
 import up.mi.al.connect.Connect4VsAI;
 import up.mi.al.connect.AI.AIRandom;
 import up.mi.al.connect.AI.AIAlphaBeta;
@@ -17,8 +17,16 @@ public class App {
       int choixNiveau = 0;
           Scanner sc = new Scanner(System.in);
       do{
+	      
         System.out.println(menuPrincipal);
-        choixNiveau = sc.nextInt();
+	      System.out.println(menuPrincipal);
+			try {
+				choixNiveau = sc.nextInt();
+			}catch(InputMismatchException e) {
+				choixNiveau = 0;
+				sc.next();
+			}
+        //choixNiveau = sc.nextInt();
         switch(choixNiveau){
           case 1:
             System.out.println("\n facile");
@@ -60,7 +68,7 @@ public class App {
 
     private static void IAMedium(){
 
-        int depth = 5;
+        int depth = 1;
         boolean AIAsPlayer1 = false;
 		Connect4VsAI game = new Connect4VsAI(new AIAlphaBetaDepth(AIAsPlayer1, depth), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
@@ -79,9 +87,9 @@ public class App {
     }
 
     private static void IAHard(){
-
-    boolean AIAsPlayer1 = false;
-		Connect4VsAI game = new Connect4VsAI(new AIAlphaBeta(AIAsPlayer1), AIAsPlayer1);
+	int depth = 4;
+    	boolean AIAsPlayer1 = false;
+		Connect4VsAI game = new Connect4VsAI(new AIAlphaBetaDepth(AIAsPlayer1, depth), AIAsPlayer1);
 		Scanner sc = new Scanner(System.in);
 
 		while (!game.isFinished()) {
